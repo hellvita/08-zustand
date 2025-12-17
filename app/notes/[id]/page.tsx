@@ -26,7 +26,7 @@ export async function generateMetadata({
     openGraph: {
       title: titleStr,
       description: descriptionStr.slice(0, 100),
-      url: `coming soon`,
+      url: `https://08-zustand-omega-beige.vercel.app/notes/${id}`,
       images: [
         {
           url: "https://ac.goit.global/fullstack/react/notehub-og-meta.jpg",
