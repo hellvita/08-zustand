@@ -1,13 +1,16 @@
 import type { Metadata } from "next";
-import NotFoundClient from "./NotFound.client";
+import css from "./not-found.module.css";
 
 export const metadata: Metadata = {
   title: "Page not found",
   description: "Unfortunately, the page at this address does not exist!",
+  alternates: {
+    canonical: "/404",
+  },
   openGraph: {
     title: "Page not found",
     description: "Unfortunately, the page at this address does not exist!",
-    url: "https://07-routing-nextjs-ebon-six.vercel.app/",
+    url: "/404",
     images: [
       {
         url: "https://ac.goit.global/fullstack/react/notehub-og-meta.jpg",
@@ -21,8 +24,11 @@ export const metadata: Metadata = {
 
 export default function NotFound() {
   return (
-    <>
-      <NotFoundClient />
-    </>
+    <div className={css.container}>
+      <h1 className={css.title}>404 - Page not found</h1>
+      <p className={css.description}>
+        Sorry, the page you are looking for does not exist.
+      </p>
+    </div>
   );
 }
