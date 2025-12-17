@@ -21,7 +21,7 @@ export default function NoteDetailsClient() {
     staleTime: 60 * 1000,
   });
 
-  const handleBack = () => router.back();
+  const handleBack = () => router.push("/notes/filter/all");
 
   if (isLoading) return <Loading />;
 
