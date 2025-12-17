@@ -5,24 +5,38 @@ import { useMutation } from "@tanstack/react-query";
 import { useId } from "react";
 import { NewNote, TAG_TYPES, NoteTag } from "@/types/note";
 import { createNote } from "@/lib/api";
+import { useNoteDraftStore } from "@/lib/store/noteStore";
 import toast from "react-hot-toast";
 import css from "./NoteForm.module.css";
 
 export default function NoteForm() {
   const fieldId = useId();
 
+  const { draft, setDraft, clearDraft } = useNoteDraftStore();
+
+  const handleChange = (
+    event: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => setDraft({ ...draft, [event.target.name]: event.target.value });
+
   const router = useRouter();
-  const handleCancel = () => router.push("/notes/filter/all");
+  const toAllNotes = () => router.push("/notes/filter/all");
+  const handleCancel = () => toAllNotes();
 
   const { mutate } = useMutation({
     mutationFn: createNote,
-    onSuccess: () => {
-      router.push("/notes/filter/all");
+    onSuccess: (newNote) => {
+      toast(`The '${newNote.title}' note has been added!`);
+      clearDraft();
+      toAllNotes();
     },
     onError: () =>
       toast("Could not save changes, please try again...", {
         style: {
           borderColor: "#d32f2f",
+          textDecoration: "underline",
+          textDecorationColor: "#d32f2f",
         },
       }),
   });
@@ -45,6 +59,8 @@ export default function NoteForm() {
           type="text"
           name="title"
           id={`${fieldId}-title`}
+          defaultValue={draft?.title}
+          onChange={handleChange}
           required
           minLength={3}
           maxLength={50}
@@ -57,6 +73,8 @@ export default function NoteForm() {
         <textarea
           name="content"
           id={`${fieldId}-content`}
+          defaultValue={draft?.content}
+          onChange={handleChange}
           rows={8}
           maxLength={500}
           className={css.textarea}
@@ -65,7 +83,13 @@ export default function NoteForm() {
 
       <div className={css.formGroup}>
         <label htmlFor={`${fieldId}-tag`}>Tag</label>
-        <select name="tag" id={`${fieldId}-tag`} className={css.select}>
+        <select
+          name="tag"
+          id={`${fieldId}-tag`}
+          defaultValue={draft?.tag}
+          onChange={handleChange}
+          className={css.select}
+        >
           {TAG_TYPES.map((tag, index) => (
             <option key={index} value={tag}>
               {tag}

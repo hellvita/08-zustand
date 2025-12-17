@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Toaster } from "react-hot-toast";
 import css from "./Header.module.css";
 
 export default function Header() {
@@ -7,6 +8,11 @@ export default function Header() {
       <Link href="/" aria-label="Home">
         NoteHub
       </Link>
+      <Toaster
+        toastOptions={{
+          className: `${css.toast}`,
+        }}
+      />
       <nav aria-label="Main Navigation">
         <ul className={css.navigation}>
           <li>
