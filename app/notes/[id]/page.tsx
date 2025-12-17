@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import {
   QueryClient,
   HydrationBoundary,
@@ -8,6 +9,34 @@ import { fetchNoteById } from "@/lib/api";
 
 interface NoteDetailsProps {
   params: Promise<{ id: string }>;
+}
+
+export async function generateMetadata({
+  params,
+}: NoteDetailsProps): Promise<Metadata> {
+  const { id } = await params;
+  const note = await fetchNoteById(id);
+
+  const titleStr = note.title;
+  const descriptionStr = note.content === "" ? titleStr : note.content;
+
+  return {
+    title: titleStr,
+    description: descriptionStr.slice(0, 30),
+    openGraph: {
+      title: titleStr,
+      description: descriptionStr.slice(0, 100),
+      url: `coming soon`,
+      images: [
+        {
+          url: "https://ac.goit.global/fullstack/react/notehub-og-meta.jpg",
+          width: 1200,
+          height: 630,
+          alt: titleStr,
+        },
+      ],
+    },
+  };
 }
 
 export default async function NoteDetails({ params }: NoteDetailsProps) {
