@@ -1,4 +1,26 @@
+import type { Metadata } from "next";
 import css from "./not-found.module.css";
+
+export const metadata: Metadata = {
+  title: "Page not found",
+  description: "Unfortunately, the page at this address does not exist!",
+  alternates: {
+    canonical: "https://08-zustand-omega-beige.vercel.app/404",
+  },
+  openGraph: {
+    title: "Page not found",
+    description: "Unfortunately, the page at this address does not exist!",
+    url: "https://08-zustand-omega-beige.vercel.app/404",
+    images: [
+      {
+        url: "https://ac.goit.global/fullstack/react/notehub-og-meta.jpg",
+        width: 1200,
+        height: 630,
+        alt: "NoteHub",
+      },
+    ],
+  },
+};
 
 export default function NotFound() {
   return (
