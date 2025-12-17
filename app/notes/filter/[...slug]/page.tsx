@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import {
   QueryClient,
   HydrationBoundary,
@@ -9,6 +10,36 @@ import { NoteTag } from "@/types/note";
 
 interface NotesProps {
   params: Promise<{ slug: ("all" | NoteTag)[] }>;
+}
+
+export async function generateMetadata({
+  params,
+}: NotesProps): Promise<Metadata> {
+  const { slug } = await params;
+  const tag = slug[0];
+
+  const titleStr = `${tag === "all" ? "All" : tag}`;
+  const descriptionStr = `${
+    tag === "all" ? "List of the all notes" : "List of notes with tag " + tag
+  }`;
+
+  return {
+    title: titleStr,
+    description: descriptionStr,
+    openGraph: {
+      title: titleStr,
+      description: descriptionStr,
+      url: `coming soon`,
+      images: [
+        {
+          url: "https://ac.goit.global/fullstack/react/notehub-og-meta.jpg",
+          width: 1200,
+          height: 630,
+          alt: descriptionStr,
+        },
+      ],
+    },
+  };
 }
 
 export default async function Notes({ params }: NotesProps) {
