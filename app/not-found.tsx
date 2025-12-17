@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import css from "./not-found.module.css";
 
 export const metadata: Metadata = {
@@ -29,6 +30,9 @@ export default function NotFound() {
       <p className={css.description}>
         Sorry, the page you are looking for does not exist.
       </p>
+      <Link href="/" className={css.btn}>
+        Go to the main page
+      </Link>
     </div>
   );
 }
