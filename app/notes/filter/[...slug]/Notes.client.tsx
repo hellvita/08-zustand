@@ -35,6 +35,7 @@ export default function NotesClient({ currentTag }: NotesClientProps) {
       }),
     placeholderData: keepPreviousData,
     throwOnError: true,
+    staleTime: 60 * 1000,
   });
 
   const totalPages = data?.totalPages ?? 0;
